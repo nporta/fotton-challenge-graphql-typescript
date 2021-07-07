@@ -3,6 +3,9 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 
 import { authRoutes } from './routes/auth.js'
+import { feedRoutes } from './routes/feed.js'
+import auth from './middleware/auth.js'
+import isLoggedIn from './middleware/isLoggedIn.js'
 
 const app = express()
 
@@ -15,7 +18,10 @@ app.use((req, res, next) => {
   next()
 })
 
+app.use(auth)
+
 app.use('/auth', authRoutes)
+app.use('/feed', isLoggedIn, feedRoutes)
 
 app.use((error, req, res, next) => {
   const status = error.statusCode

@@ -6,7 +6,7 @@ import User from '../models/user.js'
 
 export const signup = async (req, res, next) => {
   try {
-    const errors = validationResult(req);
+    const errors = validationResult(req)
     if (!errors.isEmpty()) {
       return res.status(422).json({
         message: 'Validation failed, entered data is incorrect.',
@@ -42,7 +42,7 @@ export const signup = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
   try {
-    const errors = validationResult(req);
+    const errors = validationResult(req)
     if (!errors.isEmpty()) {
       return res.status(422).json({
         message: 'Validation failed, entered data is incorrect.',
