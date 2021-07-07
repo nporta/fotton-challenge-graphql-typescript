@@ -20,3 +20,6 @@ Project Description
   * post (related to user)
 * endpoints:
   * `POST /auth/signup`
+  * `POST /auth/login`
+  * `POST /feed/create` (create a new post)
+
