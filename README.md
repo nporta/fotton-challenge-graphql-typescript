@@ -22,4 +22,5 @@ Project Description
   * `POST /auth/signup`
   * `POST /auth/login`
   * `POST /feed/create` (create a new post)
+  * `GET /feed/list` (list all posts from the logged user)
 

@@ -1,7 +1,7 @@
 import express from 'express'
 import { body } from 'express-validator'
 
-import { createPost } from '../controllers/feed.js'
+import { createPost, getPosts } from '../controllers/feed.js'
 
 const router = express.Router()
 
@@ -16,5 +16,7 @@ router.post(
     .isLength({ min: 5 })
     .withMessage('Please, enter a description with at least 5 characteres.'),
   createPost)
+
+  router.get('/list', getPosts)
 
 export { router as feedRoutes }
