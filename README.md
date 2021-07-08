@@ -23,4 +23,5 @@ Project Description
   * `POST /auth/login`
   * `POST /feed/create` (create a new post)
   * `GET /feed/list` (list all posts from the logged user)
+  * `GET /feed/list/:postId` (get a post by its id, only the user that created the post can see it) 
 
