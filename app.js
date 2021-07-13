@@ -3,8 +3,6 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import { graphqlHTTP } from 'express-graphql'
 
-import { authRoutes } from './routes/auth.js'
-import { feedRoutes } from './routes/feed.js'
 import auth from './middleware/auth.js'
 import isLoggedIn from './middleware/isLoggedIn.js'
 import graphqlSchema from './graphql/schema.js'
@@ -23,9 +21,6 @@ app.use((req, res, next) => {
 })
 
 app.use(auth)
-
-app.use('/auth', authRoutes)
-app.use('/feed', isLoggedIn, feedRoutes)
 
 app.use((error, req, res, next) => {
   const status = error.statusCode
