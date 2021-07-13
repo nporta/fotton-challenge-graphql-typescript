@@ -1,6 +1,7 @@
 # FotonTech Challenge
 
-This is a solution to the [FotonTech Challenge](https://github.com/FotonTech/join).
+This is a solution to the [FotonTech Challenge](https://github.com/FotonTech/join) using GraphQL.  
+If you want to see the solution using REST APIs please check [here](https://github.com/nporta/foton-challenge).
 
 How to run
 -------------
@@ -12,6 +13,7 @@ Stack
 -------------
 * Node.js / Express
 * MongoDB / Mongoose
+* GraphQL
 
 Project Description
 -------------
@@ -19,9 +21,5 @@ Project Description
   * user
   * post (related to user)
 * endpoints:
-  * `POST /auth/signup`
-  * `POST /auth/login`
-  * `POST /feed/create` (create a new post)
-  * `GET /feed/list` (list all posts from the logged user)
-  * `GET /feed/list/:postId` (get a post by its id, only the user that created the post can see it) 
+  * See [schema.graphql](https://github.com/nporta/fotton-challenge-graphql/blob/main/graphql/schema.graphql)
 
