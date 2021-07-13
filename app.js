@@ -1,11 +1,15 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
+import { graphqlHTTP } from 'express-graphql'
 
 import { authRoutes } from './routes/auth.js'
 import { feedRoutes } from './routes/feed.js'
 import auth from './middleware/auth.js'
 import isLoggedIn from './middleware/isLoggedIn.js'
+import graphqlSchema from './graphql/schema.js'
+import graphqlResolver from './graphql/resolvers.js'
+
 
 const app = express()
 
@@ -32,6 +36,26 @@ app.use((error, req, res, next) => {
     data,
   })
 })
+
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema: graphqlSchema,
+    rootValue: graphqlResolver,
+    graphiql: {
+      headerEditorEnabled: true,
+    },
+    formatError(err) {
+      if (!err.originalError) {
+        return err
+      }
+      const data = err.originalError.data
+      const message = err.message || 'An error occurred!'
+      const code = err.originalError.statusCode || 500
+      return { message: message, status: code, data: data }
+    }
+  })
+)
 
 mongoose.connect(
   process.env.MONGO_URL,
