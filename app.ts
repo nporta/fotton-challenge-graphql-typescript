@@ -47,7 +47,7 @@ app.use(
       const data = err.originalError.data
       const message = err.message || 'An error occurred!'
       const code = err.originalError.statusCode || 500
-      return { message: message, status: code, data: data }
+      return { message, status: code, data }
     }
   })
 )
