@@ -1,15 +1,20 @@
-import jwt from 'jsonwebtoken'
+import { RequestHandler } from 'express'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 
-const auth = (req, res, next) => {
+interface JWTPayload extends JwtPayload {
+  userId: string
+}
+
+const auth: RequestHandler = (req, res, next) => {
   const authHeader = req.get('Authorization')
   if (!authHeader) {
     req.isAuth = false
     return next()
-  } 
+  }
   const token = authHeader.split(' ')[1]
   let decodedToken
   try {
-    decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+    decodedToken = jwt.verify(token, process.env.JWT_SECRET) as JWTPayload
   } catch(err) {
     req.isAuth = false
     return next()

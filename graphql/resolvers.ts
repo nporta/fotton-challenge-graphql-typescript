@@ -1,11 +1,16 @@
 import validator from 'validator'
+import { Request } from 'express'
 
-import { signup, login } from '../controllers/auth.js'
-import { createPost, getPosts, getPost } from '../controllers/feed.js'
+import { signup, login } from '../controllers/auth'
+import { createPost, getPosts, getPost, PostData } from '../controllers/feed'
 
+export interface UserInput {
+  email: string
+  password: string
+}
 
 export default {
-  createUser: async function ({ userInput }) {
+  async createUser ({ userInput }: { userInput: UserInput }) {
     const errors = []
     if (!validator.isEmail(userInput.email)) {
       errors.push({ message: 'Email is invalid.' })
@@ -18,16 +23,18 @@ export default {
     }
     if (errors.length > 0) {
       const error = new Error('Invalid input.')
+      // @ts-ignore
       error.data = errors
+      // @ts-ignore
       error.statusCode = 422
       throw error
     }
     return signup(userInput)
   },
-  login: async function ({ email, password }) {
+  async login ({ email, password }: { email: string, password: string }) {
     return login(email, password)
   },
-  createPost: async function({ postInput }, req) {
+  async createPost({ postInput } : { postInput: PostData }, req: Request) {
     const errors = []
     if (
       validator.isEmpty(postInput.title) ||
@@ -43,16 +50,18 @@ export default {
     }
     if (errors.length > 0) {
       const error = new Error('Invalid input.')
+      // @ts-ignore
       error.data = errors
+      // @ts-ignore
       error.statusCode = 422
       throw error
     }
     return createPost(postInput, req)
   },
-  posts: async function(_, req) {
+  async posts(_: any, req: Request) {
     return getPosts(req)
   },
-  post: async function({ id }, req) {
+  async post({ id } : { id: string }, req: Request) {
     return getPost(id, req)
   },
 }

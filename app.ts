@@ -1,12 +1,11 @@
-import express from 'express'
+import express, { ErrorRequestHandler } from 'express'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import { graphqlHTTP } from 'express-graphql'
 
-import auth from './middleware/auth.js'
-import isLoggedIn from './middleware/isLoggedIn.js'
-import graphqlSchema from './graphql/schema.js'
-import graphqlResolver from './graphql/resolvers.js'
+import auth from './middleware/auth'
+import graphqlSchema from './graphql/schema'
+import graphqlResolver from './graphql/resolvers'
 
 
 const app = express()
@@ -22,7 +21,7 @@ app.use((req, res, next) => {
 
 app.use(auth)
 
-app.use((error, req, res, next) => {
+const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
   const status = error.statusCode
   const message = error.message
   const data = error.data
@@ -30,7 +29,9 @@ app.use((error, req, res, next) => {
     message,
     data,
   })
-})
+}
+
+app.use(errorHandler)
 
 app.use(
   '/graphql',
@@ -44,8 +45,10 @@ app.use(
       if (!err.originalError) {
         return err
       }
+      // @ts-ignore need to type originalError
       const data = err.originalError.data
       const message = err.message || 'An error occurred!'
+      // @ts-ignore
       const code = err.originalError.statusCode || 500
       return { message, status: code, data }
     }
